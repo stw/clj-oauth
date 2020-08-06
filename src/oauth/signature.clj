@@ -65,6 +65,11 @@
   (let [key (str (url-encode (:secret c)) "&" (url-encode (or token-secret "")))]
       (digest/hmac key base-string)))
 
+(defmethod sign :hmac-sha256
+  [c base-string & [token-secret]]
+  (let [key (str (url-encode (:secret c)) "&" (url-encode (or token-secret "")))]
+      (digest/hmac256 key base-string)))
+
 (defmethod sign :plaintext
   [c base-string & [token-secret]]
   (str (url-encode (:secret c)) "&" (url-encode (or token-secret ""))))
